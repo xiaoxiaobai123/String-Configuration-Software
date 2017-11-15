@@ -1,0 +1,45 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Burner_AdvanTech" GeneratedClassName="Global">
+  <Profiles />
+  <Settings>
+    <Setting Name="stringnumber" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="bpnumber" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">22</Value>
+    </Setting>
+    <Setting Name="cellnumber" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
+    <Setting Name="BootStartAddress" Type="System.UInt64" Scope="User">
+      <Value Profile="(Default)">134217728</Value>
+    </Setting>
+    <Setting Name="BootEndAddress" Type="System.UInt64" Scope="User">
+      <Value Profile="(Default)">134283264</Value>
+    </Setting>
+    <Setting Name="APStartAddress" Type="System.UInt64" Scope="User">
+      <Value Profile="(Default)">134283264</Value>
+    </Setting>
+    <Setting Name="APEndAddress" Type="System.UInt64" Scope="User">
+      <Value Profile="(Default)">134348800</Value>
+    </Setting>
+    <Setting Name="CanBaudrate" Type="System.String" Scope="User">
+      <Value Profile="(Default)">125</Value>
+    </Setting>
+    <Setting Name="CanAckTimeOut" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="CanPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">can1</Value>
+    </Setting>
+    <Setting Name="CanMaxMsgCount" Type="System.String" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="CanWriteTimeOut" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3000</Value>
+    </Setting>
+    <Setting Name="CanReadTimeOut" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3000</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,396 @@
+﻿<Window x:Class="Burner_AdvanTech.MainWindow"
+     
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Burner_AdvanTech"
+        mc:Ignorable="d"
+         Title="StringFirmwareUpgradeSoftware" Height="1000" Width="600"
+        WindowStartupLocation ="CenterScreen">
+
+
+            <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources\GlassButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+   
+        <!--<Window.DataContext>
+        <local:StringFirmwareInfor x:Name="SIF"  />
+        </Window.DataContext>-->
+          <TabControl x:Name="tabControl" Margin="0,0,0,2" SelectedIndex="0" SelectionChanged="tabControl_SelectionChanged">
+            <TabItem Header="Upgrade">
+                <!--<Border Padding="1" Margin="0,0,0,0">-->
+                <DockPanel Margin="0,0,0,1" >
+                    <Grid Background="White" Height="300"  DockPanel.Dock="Top">
+                        <DataGrid x:Name="dataGridFirmwareVersion" Grid.Row="0" Margin="0,0,0,0" AutoGenerateColumns ="False" Height="300" VerticalAlignment="top" CanUserAddRows="False" HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="NodeAddress" Binding="{Binding NodeAddress}" Width="*"/>
+                                <DataGridCheckBoxColumn Header="OnlineStatus" Binding="{Binding OnlineStatus }" Width="*"/>
+                                <DataGridTextColumn Header="FirmwareVersion" Binding="{Binding FirmwareVersion}" Width="*"/>
+                                <DataGridTextColumn Header="FirmwareType" Binding="{Binding FirmwareType}" Width="*"/>
+                                <DataGridTemplateColumn Header="BurningProgress" Width="2*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <ProgressBar  Value ="{Binding BurningProgress}"  Minimum="0" Maximum="100" />
+                                                <TextBlock Text="{Binding BurningProgress}"  HorizontalAlignment="center" VerticalAlignment="center" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+
+                            <DataGrid.Resources>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="Background" Value="Turquoise"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                </Style>
+                            </DataGrid.Resources>
+                        </DataGrid>
+                        <!--<ProgressBar HorizontalAlignment="Left" Height="10" Margin="429,361,0,0" VerticalAlignment="Top" Width="100" Value="50"/>-->
+                    </Grid>
+
+                    <Grid Background="Blue" Margin="0,3,0,0"  DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox x:Name="StrInfor"  Header="String Information" Grid.Column="0">
+                            <StackPanel>
+                                <Button x:Name="String_Online" Click="String_Online_Click" Content="String_Online" Margin="0,0,0,5"/>
+                                <Button x:Name="StringToBooter" Click="StringToBooter_Click" Content="StringToBooter" Margin="0,0,0,5"/>
+                                <Button x:Name="StringToAP" Click="StringToAP_Click" Content="StringToAP" Margin="0,0,0,5"/>
+                                <Button x:Name="BroadCastBurning" Click="BroadCastBurning_Click" Content="BroadCastBurning" Margin="0,0,0,5"/>
+                                <Button x:Name="OpenFile" Click="OpenFile_Click" Content="OpenFile" Margin="0,0,0,5"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox x:Name="BpInfor"  Header="Bp Information" Grid.Column="1">
+                            <StackPanel>
+                                <ComboBox x:Name="StringNumberSelected" SelectedIndex="0" Loaded="StringNumberSelected_Loaded"  IsEditable="True" Text="stringall" Margin="0,0,0,5"/>
+                                <CheckBox x:Name="BpSelected" Content="BpSelected" Checked="BpSelected_Checked" Unchecked="BpSelected_Unchecked" Margin="0,0,0,5"/>
+                                <Button x:Name="QueryBp_Online" Content="QueryBp_Online" Click="QueryBp_Online_Click" Margin="0,0,0,5"/>
+                                <Button x:Name="BpToBooter" Content="BpToBooter" Click="BpToBooter_Click" Margin="0,0,0,5"/>
+                                <Button x:Name="BpToAP" Content="BpToAP" Click="BpToAP_Click" Margin="0,0,0,5"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+
+                    <TextBlock x:Name="textBoxFilePath" Margin="0,5,0,5" Background="Blue" Height="24" DockPanel.Dock="Top"/>
+
+                    <DockPanel  DockPanel.Dock="Top">
+
+                        <StatusBar DockPanel.Dock="Bottom">
+                            <StatusBar.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="120" />
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+                                </ItemsPanelTemplate>
+                            </StatusBar.ItemsPanel>
+                            <StatusBarItem>
+                                <TextBlock Name="BurnStartTime" Text="StartTime:" />
+                            </StatusBarItem>
+                            <Separator Grid.Column="1" />
+                            <StatusBarItem Grid.Column="2">
+                                <TextBlock x:Name="BurnerFilePath"   Text = "BurnerFilePath"  />
+                            </StatusBarItem>
+                            <Separator Grid.Column="3" />
+                            <StatusBarItem Grid.Column="4">
+                                <TextBlock Name="BurnStopTime"  Text="StopTime:" />
+                            </StatusBarItem>
+                            <Separator Grid.Column="5" />
+                            <StatusBarItem Grid.Column="6">
+                                <ProgressBar x:Name="TotalProgressbar"  Value="0" Minimum="0" Maximum="100" Width="90" Height="16" />
+                            </StatusBarItem>
+                        </StatusBar>
+                        <TextBox DockPanel.Dock="Top" AcceptsReturn="True" Name="HinttextBox" TextChanged="HinttextBox_TextChanged"  Text="{Binding TextContent, Mode=OneWay}" TextWrapping="Wrap">
+                            <TextBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem x:Name="ClearText"  Click="ClearText_Click" Header="Clear"/>
+                                </ContextMenu>
+                            </TextBox.ContextMenu>
+                        </TextBox>
+                    </DockPanel>
+
+                    <!--<Grid Height="161" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>-->
+
+                    <!--</Grid>-->
+
+
+
+
+                </DockPanel>
+                <!--</Border>-->
+
+
+            </TabItem>
+
+            <TabItem Header="Function" >
+                <DockPanel Margin="-2,5,2,-5">
+                    <Grid Background="Turquoise" Margin="0,0,0,2"  DockPanel.Dock="Top" Height="auto">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"  Margin="0,0,5,0" Content="StringController"/>
+                        <ComboBox x:Name="SCNumberselect" Grid.Column="1" SelectionChanged="SCNumberselect_SelectionChanged" Loaded ="SCNumberselect_Loaded" >
+
+                        </ComboBox>
+                        <Label Grid.Column="2"  Margin="0,0,5,0" Content="BpController"/>
+                        <ComboBox x:Name="BpNumberselect" SelectionChanged="BpNumberselect_SelectionChanged" Grid.Column="3" Loaded="BpNumberselect_Loaded"/>
+                    </Grid>
+                    <Grid DockPanel.Dock="Top" Background="Turquoise">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Grid.Column="0" Header="Hi/Lo/Ave Value(℃/V)">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                <TextBox Text="High Vol"    />
+                                    <TextBox Text="Ave Vol"/>
+                                    <TextBox Text="Low Vol"/>
+                                    <TextBox Text="High Temp"/>
+                                    <TextBox Text="Ave Temp"/>
+                                    <TextBox Text="Low Temp"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBox Text="{Binding Path = highvoltage}"/>
+                                    <TextBox Text="{Binding avevoltage}"/>
+                                    <TextBox Text="{Binding lowvoltage}"/>
+                                    <TextBox Text="{Binding hightemp}"/>
+                                    <TextBox Text="{Binding avetemp}"/>
+                                    <TextBox Text="{Binding lowtemp}"/>
+                            </StackPanel>
+                            </Grid>
+
+
+                        </GroupBox>
+                        <GroupBox Grid.Column="1" Header="Current/Vol Value">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBox Text="String Vol" />
+                                    <TextBox Text="DCBUS Vol" />
+                                    <TextBox Text="String Current"/>
+                                    <TextBox Text="Vol Targert"/>
+                                    <TextBox Text="KWH"/>
+                                    <TextBox Text="KW"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBox Text="{Binding stringvoltage}"/>
+                                    <TextBox Text="{Binding dcbusvoltage}"/>
+                                    <TextBox Text="{Binding stringcurrent}"/>
+                                    <TextBox Text="{Binding targetvalue}"/>
+                                    <TextBox Text="{Binding kwh}"/>
+                                    <TextBox Text="{Binding kw}"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Grid.Column="2" Header="Contactors Status">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBox Text="P-ContactorStatus"/>
+                                    <TextBox Text="N-ContactorsStatus"/>
+                                    <TextBox Text="PermissionStatus"/>
+
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                <TextBox Text="{Binding pcontactorsattus}"/>
+                                <TextBox Text="{Binding ncontactorstatus}"/>
+                                <TextBox Text="{Binding contactorclosedpermissionstatus}"/>
+
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <Grid DockPanel.Dock="Top">
+                        <DataGrid x:Name="CellinfodataGridView"  Grid.Row="0" Margin="0,0,0,0" AutoGenerateColumns ="False" Height= "310" VerticalAlignment="top"  IsReadOnly="False"  CanUserAddRows="False" HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="CellNumber" Binding="{Binding CellNumber}" Width="*"/>
+                                <DataGridTextColumn Header="Vol" Binding="{Binding Vol }" Width="*"/>
+                                <DataGridTextColumn Header="Temp" Binding="{Binding Temp}" Width="*"/>
+                                <DataGridCheckBoxColumn Header="BalState" Binding="{Binding BalState}" Width="*"/>
+
+                            </DataGrid.Columns>
+
+                            <DataGrid.Resources>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="Background" Value="Turquoise"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                </Style>
+                            </DataGrid.Resources>
+                        </DataGrid>
+                    </Grid>
+
+                <Grid  Height="320" DockPanel.Dock="top" Margin="0,2,0,0" Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Column="0" Header="NormalOperation">
+                        <StackPanel>
+                            <Button Content="Turn on Contactors" Margin="0,0,0,2"/>
+                            <Button Content="Turn off Contactors" Margin="0,0,0,2"/>
+                            <Button Content="Turn on chargers" Margin="0,0,0,2"/>
+                            <Button Content="Send closed Permission" Margin="0,0,0,2"/>
+                            <Button Content="Recall closed Permission" Margin="0,0,0,2"/>
+                        </StackPanel>
+
+                    </GroupBox>
+
+                    <GroupBox Grid.Column="1" Header="BPselfCheck">
+
+                       <!--<Button Style="{StaticResource GlassButton}" Content="BP1" Width="50" Height="50" Background="blue"  Margin="6,8,225,240"/>-->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Button Grid.Column="0" Grid.Row="0" Style="{StaticResource GlassButton}" Content="BP1" Width="50" Height="50" Background="SpringGreen"  Margin="0,0,0,0"/>
+                            <Button Grid.Column="1" Grid.Row="0" Style="{StaticResource GlassButton}" Content="BP2" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="2" Grid.Row="0" Style="{StaticResource GlassButton}" Content="BP3" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="3" Grid.Row="0" Style="{StaticResource GlassButton}" Content="BP4" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="4" Grid.Row="0" Style="{StaticResource GlassButton}" Content="BP5" Width="50" Height="50" Background="SpringGreen"/>
+
+                            <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource GlassButton}" Content="BP6" Width="50" Height="50" Background="SpringGreen"  Margin="0,0,0,0"/>
+                            <Button Grid.Column="1" Grid.Row="1" Style="{StaticResource GlassButton}" Content="BP7" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="2" Grid.Row="1" Style="{StaticResource GlassButton}" Content="BP8" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="3" Grid.Row="1" Style="{StaticResource GlassButton}" Content="BP9" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="4" Grid.Row="1" Style="{StaticResource GlassButton}" Content="BP10" Width="50" Height="50" Background="SpringGreen"/>
+
+                            <Button Grid.Column="0" Grid.Row="2" Style="{StaticResource GlassButton}" Content="BP11" Width="50" Height="50" Background="SpringGreen"  Margin="0,0,0,0"/>
+                            <Button Grid.Column="1" Grid.Row="2" Style="{StaticResource GlassButton}" Content="BP12" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="2" Grid.Row="2" Style="{StaticResource GlassButton}" Content="BP13" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="3" Grid.Row="2" Style="{StaticResource GlassButton}" Content="BP14" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="4" Grid.Row="2" Style="{StaticResource GlassButton}" Content="BP15" Width="50" Height="50" Background="SpringGreen"/>
+
+                            <Button Grid.Column="0" Grid.Row="3" Style="{StaticResource GlassButton}" Content="BP16" Width="50" Height="50" Background="SpringGreen"  Margin="0,0,0,0"/>
+                            <Button Grid.Column="1" Grid.Row="3" Style="{StaticResource GlassButton}" Content="BP17" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="2" Grid.Row="3" Style="{StaticResource GlassButton}" Content="BP18" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="3" Grid.Row="3" Style="{StaticResource GlassButton}" Content="BP19" Width="50" Height="50" Background="SpringGreen"/>
+                            <Button Grid.Column="4" Grid.Row="3" Style="{StaticResource GlassButton}" Content="BP20" Width="50" Height="50" Background="SpringGreen"/>
+
+
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                    <DockPanel LastChildFill="False" Background="White" DockPanel.Dock="Top" Margin="0,0,0,0" Height="auto" RenderTransformOrigin="0.5,0.5">
+
+                        <StatusBar DockPanel.Dock="Bottom" Height="25" Background="Khaki">
+                            <StatusBar.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+                                </ItemsPanelTemplate>
+                            </StatusBar.ItemsPanel>
+                            <StatusBarItem Grid.Column="0">
+                            <CheckBox x:Name="EnableListencheckBox" Checked="EnableListencheckBox_Checked" Content="Enable ListenMode" />
+                            </StatusBarItem>
+                            <Separator Grid.Column="1" />
+                            <StatusBarItem Grid.Column="2">
+                                <CheckBox x:Name="EnableBalancingcheckBox" Content="Enable Balancing" Checked="CheckBox_Checked" />
+                            </StatusBarItem>
+                            <Separator Grid.Column="3" />
+                            <StatusBarItem Grid.Column="4">
+                            <Button x:Name="CanPortControlButton" Content="Start" Width="133" Click="CanPortControlButton_Click" Background="Khaki"/>
+                            </StatusBarItem>
+                            <Separator Grid.Column="5" />
+                            <StatusBarItem Grid.Column="6">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="TargetVol" Grid.Column="0" Background="Khaki" Margin="0,0,2,0"/>
+                                    <TextBox Text="TargetVol" Grid.Column="1" Background="White" Margin="0,0,2,0" Height="17" VerticalAlignment="Top"/>
+                                </Grid>
+                            </StatusBarItem>
+                       
+                        </StatusBar>
+
+                    </DockPanel>
+
+
+
+                </DockPanel>
+            </TabItem>
+
+
+        </TabControl>
+
+  
+
+    <!--<TabControl x:Name="tabControl" Height="100">
+                <TabItem Header="TabItem">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="TabItem">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>-->
+    <!--</StackPanel>-->
+
+</Window>
