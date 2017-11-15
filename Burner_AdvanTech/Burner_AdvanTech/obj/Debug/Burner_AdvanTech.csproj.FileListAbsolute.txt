@@ -41,3 +41,6 @@ F:\Burner_AdvanTech\Burner_AdvanTech\obj\Debug\Burner_AdvanTech.g.resources
 F:\Burner_AdvanTech\Burner_AdvanTech\obj\Debug\Burner_AdvanTech.Properties.Resources.resources
 F:\Burner_AdvanTech\Burner_AdvanTech\obj\Debug\Burner_AdvanTech.csproj.GenerateResource.Cache
 C:\Users\admin\Desktop\Burner_AdvanTech\Burner_AdvanTech\obj\Debug\Resources\GlassButton.baml
+E:\String Configuration Software\Burner_AdvanTech\Burner_AdvanTech\bin\Debug\Burner_AdvanTech.exe.config
+E:\String Configuration Software\Burner_AdvanTech\Burner_AdvanTech\obj\Debug\Burner_AdvanTech.exe
+E:\String Configuration Software\Burner_AdvanTech\Burner_AdvanTech\obj\Debug\Burner_AdvanTech.pdb
